@@ -1,0 +1,33 @@
+Successfully created song. OR
+Successfully updated song.
+
+<tr>
+  <th><h2><%= @song.name %></h2></th>
+</tr>
+
+<tr>
+  <th><h3>Artist:</h3></th>
+</tr>
+
+<tr>
+  <a href="/artists/<%= @song.artist.slug %>"><%= @song.artist.name %></a><br/>
+</tr>
+
+<tr>
+  <th><h3>Genres:</h3></th>
+</tr>
+<% @song.genres.each do |genre| %>
+  <tr>
+    <a href="/genres/<%= genre.slug %>"><%= genre.name %></a><br/>
+  </tr>
+<% end %>
+
+<p>
+  <hr>
+</p>
+<p>
+  <a href="/songs/<%= @song.slug %>/edit">Edit song</a>
+</p>
+<p>
+  <a href="/songs">Back to songs</a>
+</p>
