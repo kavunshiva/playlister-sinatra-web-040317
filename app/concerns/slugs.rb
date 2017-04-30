@@ -4,27 +4,25 @@ module Slugs
 
   module FindSlug
     def find_by_slug(slug)
-      self.find_by('lower(name) = ?', deslug(slug))
+      self.find do |instance|
+        decode(instance.slug) == slug
+      end
     end
 
     private
 
-    def deslug(slug)
-      Addressable::URI
-        .unencode(slug)
-        .split('-').join(' ') # deslugify
-        .split('%2D').join('-') # decode hyphens in name
+    def decode(slug)
+      Addressable::URI.unencode(slug)
     end
   end
 
   module MakeSlug
     def slug
-      safe_name = Addressable::URI.normalize_component(
+      url_safe_name = Addressable::URI.normalize_component(
         self.name.downcase,
         Addressable::URI::CharacterClasses::UNRESERVED
       )
-      safe_name
-        .split('-').join('%2D') # encode hyphens in name
+      url_safe_name
         .split('%20').join('-') # slugify
     end
   end
